@@ -22,7 +22,7 @@ https://mp.weixin.qq.com/s/Yr71bBrLDFjbDHkBqZ_HPg
 
 关于 NTLMSSP 的内容，这里使用了结构体进行解析，比较容易理解。
 
-
+有问题提 Issues...
 
 ### 0x02 使用方法
 
@@ -30,24 +30,24 @@ https://mp.weixin.qq.com/s/Yr71bBrLDFjbDHkBqZ_HPg
 SharpDetectionNTLMSSP.exe -module=smb -target=192.168.65.133 -port=445 -threads=15
 
 Required Flags:
--target: The IP address of the target. the following formats are supported
-	        192.168.65.133
-            192.168.65.133,192.168.65.123
-            192.168.65.0/24
-            192.168.65.0/16
-            192.168.65.0/8
-            192.168.65.55-192.168.70.233
-            target.txt
--module: The service module of the target. the following modules are supported
-	        exchange
-            mssql
-            smb
-            winrm
-            wmi
--port: The corresponding port of the target's service module
+	-target: The IP address of the target. the following formats are supported
+				192.168.65.133
+				192.168.65.133,192.168.65.123
+				192.168.65.0/24
+				192.168.65.0/16
+				192.168.65.0/8
+				192.168.65.55-192.168.70.233
+				target.txt
+	-module: The service module of the target. the following modules are supported
+				exchange
+				mssql
+				smb
+				winrm
+				wmi
+	-port: The corresponding port of the target's service module
 
 Optional Flags:
--threads: Threads to use to concurently enumerate multiple remote hosts (Default: 15)
+	-threads: Threads to use to concurently enumerate multiple remote hosts (Default: 15)
 ```
 
 效果：
