@@ -27,6 +27,7 @@ namespace SharpDetectionNTLMSSP.FunModule
                 hwr.Method = "POST";
                 hwr.ContentType = "text/xml; charset=utf-8";
                 hwr.UserAgent = DefaultUserAgent;
+                hwr.ContentLength = 0;
                 hwr.Headers.Add("Authorization", "Negotiate TlRMTVNTUAABAAAAB4IIogAAAAAAAAAAAAAAAAAAAAAGAbEdAAAADw==");
                 HttpWebResponse response = hwr.GetResponse() as HttpWebResponse;
             }
