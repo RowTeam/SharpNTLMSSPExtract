@@ -8,11 +8,21 @@ namespace SharpDetectionNTLMSSP
 {
     class SocketStream
     {
-        public Socket socket;
+        public Boolean OK = false;
+        public Socket socket = null;
         public SocketStream(String ip, int port)
         {
-            this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(ip, port);
+            try
+            {
+                this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect(ip, port);
+                OK = true;
+            } 
+            catch 
+            {
+                OK = false;
+                return; 
+            }
         }
 
         public void SendMessage(Byte[] buffer)

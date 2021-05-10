@@ -1,13 +1,8 @@
-﻿using SharpDetectionNTLMSSP.FunModule;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
-using System.Text;
-
-using static SharpDetectionNTLMSSP.FormatUtils;
+using System.Diagnostics;
+using System.Threading;
+using SharpDetectionNTLMSSP.FunModule;
 
 namespace SharpDetectionNTLMSSP
 {
@@ -17,7 +12,7 @@ namespace SharpDetectionNTLMSSP
         {
             var result = String.Empty;
 
-            result += String.Format("[*] Detecting Remote Computer of {0}\r\n", _TriageNTLMSSPKey.IP);
+            result += String.Format("[*] Detecting Remote Computer of {0}\r\n", _TriageNTLMSSPKey.Target);
 
             if (String.IsNullOrEmpty(_TriageNTLMSSPKey.NativeOs))
             {
@@ -37,11 +32,12 @@ namespace SharpDetectionNTLMSSP
             Console.WriteLine(result);
         }
 
-        static void Start(string ip, int port, string typeKey)
+        static void StartDoStuff(string target, int port, string typeKey)
         {
-            var socketMessage = new SocketStream(ip, port);
+            var socketMessage = new SocketStream(target, port);
+            if (!socketMessage.OK) return;
             var _TriageNTLMSSPKey = new TriageNTLMSSPKey();
-            _TriageNTLMSSPKey.IP = ip;
+            _TriageNTLMSSPKey.Target = target;
             _TriageNTLMSSPKey.Port = port;
             _TriageNTLMSSPKey.Type = typeKey;
 
@@ -55,44 +51,76 @@ namespace SharpDetectionNTLMSSP
             ParsingTriageNTLMSSPKey(_TriageNTLMSSPKey);
         }
 
-        static void help()
+        static void StartThreadPool(Dictionary<string, string> arguments, int maxThreads)
         {
-            Console.WriteLine("SharpDetectionNTLMSSP.exe -m Moudle -h ip -p port");
-            Console.WriteLine("Moudel:");
-            Console.WriteLine("\tExchagne");
-            Console.WriteLine("\tMSSql");
-            Console.WriteLine("\tSMB");
-            Console.WriteLine("\tWinRM");
-            Console.WriteLine("\tWMI");
+            HashSet<string> targetHosts = Wantprefixlen.wantprefixlen(arguments["-target"]);
+            ThreadPool.SetMaxThreads(maxThreads, 1);
+            var count = new CountdownEvent(targetHosts.Count);
+
+            foreach (string singleTarget in targetHosts)
+            {
+                ThreadPool.QueueUserWorkItem(status => 
+                { 
+                    StartDoStuff(singleTarget, Convert.ToInt32(arguments["-port"]), arguments["-module"].ToUpper()); 
+                    count.Signal(); 
+                });
+            }
+            count.Wait();
+            Console.WriteLine("---------------Script execution completed---------------");
+        }
+
+        static void ParseArguments(Dictionary<string, string> arguments)
+        {
+            int maxThreads = 15;
+            int workers, async;
+
+            if (arguments.ContainsKey("-threads"))
+            {
+                ThreadPool.GetAvailableThreads(out workers, out async);
+                if (Convert.ToInt32(arguments["-threads"]) <= workers)
+                {
+                    maxThreads = Convert.ToInt32(arguments["-threads"]);
+                }
+                else
+                {
+                    Console.WriteLine("[!] Error - not enough available worker threads in the .net thread pool (max available = " + workers + ")");
+                    Environment.Exit(0);
+                }
+            }
+
+            if (arguments.ContainsKey("-port") && arguments.ContainsKey("-module") && arguments.ContainsKey("-target"))
+            {
+                StartThreadPool(arguments, maxThreads);
+            }
+            else
+            {
+                Console.WriteLine("[!] Error - run with '-help' flag to see additional flags");
+                Environment.Exit(0);
+            }
         }
 
         static void Main(string[] args)
         {
-            var ip = string.Empty;
-            var port = 445;
-            var typeKey = string.Empty;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-            if (args.Length < 6)
+            if (args.Length <= 0 || args[0].ToLower() == "help" || args[0] == "-h" || args[0].ToLower() == "-help")
             {
-                help();
-                Environment.Exit(0);
+                Info.ShowUsage();
+                return;
             }
-            for (int i = 0; i < args.Length; i++)
+
+            var parsed = ArgumentParser.Parse(args);
+            if (parsed.ParsedOk == false)
             {
-                if (args[i].Contains("-m") && args.Length > i + 1)
-                {
-                    typeKey = args[++i].ToUpper();
-                }
-                else if (args[i].Contains("-h") && args.Length > i + 1)
-                {
-                    ip = args[++i];
-                }
-                else if (args[i].Contains("-p") && args.Length > i + 1)
-                {
-                    port = int.Parse(args[++i]);
-                }
+                Info.ShowUsage();
+                return;
             }
-            Start(ip, port, typeKey);
+            ParseArguments(parsed.Arguments);
+
+            stopwatch.Stop();
+            TimeSpan timespan = stopwatch.Elapsed;
+            Console.WriteLine("[*] Time taken: {0}s", timespan.TotalSeconds);
         }
     }
 }

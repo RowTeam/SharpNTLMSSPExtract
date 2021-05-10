@@ -1,5 +1,7 @@
 # SharpDetectionNTLMSSP
 
+https://mp.weixin.qq.com/s/Yr71bBrLDFjbDHkBqZ_HPg
+
 ### 0x00 前言
 
 在前端时间，基于 SMB 中的 NTLMSSP 数据包做了一个解析工具。
@@ -25,23 +27,37 @@
 ### 0x02 使用方法
 
 ```
-SharpDetectionNTLMSSP.exe -m Moudle -h ip -p port
-Moudel:
-        Exchagne
-        MSSql
-        SMB
-        WinRM
-        WMI
+SharpDetectionNTLMSSP.exe -module=smb -target=192.168.65.133 -port=445 -threads=15
+
+Required Flags:
+-target: The IP address of the target. the following formats are supported
+	        192.168.65.133
+            192.168.65.133,192.168.65.123
+            192.168.65.0/24
+            192.168.65.0/16
+            192.168.65.0/8
+            192.168.65.55-192.168.70.233
+            target.txt
+-module: The service module of the target. the following modules are supported
+	        exchange
+            mssql
+            smb
+            winrm
+            wmi
+-port: The corresponding port of the target's service module
+
+Optional Flags:
+-threads: Threads to use to concurently enumerate multiple remote hosts (Default: 15)
 ```
 
 效果：
 
-![](blog_2021-05-09_19-51-48.png)
-
-
+![](blog_2021-05-10_21-43-10.png)
 
 ### 0x03 参考
 
 [红蓝对抗之利用NTLM认证探测Windows信息](https://mp.weixin.qq.com/s/yBFGrb9D8nmO0KLGjYds8g)
 
 [MssqlInfo](https://github.com/FeigongSec/NTLMINFO/blob/main/MssqlInfo/MssqlInfo/Program.cs#L29-L68)
+
+[SharpSecDump](https://github.com/G0ldenGunSec/SharpSecDump/blob/master/SharpSecDump/Program.cs#L18-L92)

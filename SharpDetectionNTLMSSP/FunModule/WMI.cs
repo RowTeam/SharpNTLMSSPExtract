@@ -23,7 +23,7 @@ namespace SharpDetectionNTLMSSP.FunModule
             var response = new byte[1024];
 
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(_TriageNTLMSSPKey.IP, _TriageNTLMSSPKey.Port);
+            socket.Connect(_TriageNTLMSSPKey.Target, _TriageNTLMSSPKey.Port);
             socket.Send(NTLMSSPBuffer.dcerpc_buffer_v2);
             socket.Receive(response);
 

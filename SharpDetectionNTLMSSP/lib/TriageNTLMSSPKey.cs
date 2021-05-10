@@ -7,7 +7,7 @@ namespace SharpDetectionNTLMSSP
 {
     public class TriageNTLMSSPKey
     {
-        public String IP { get; set; }
+        public String Target { get; set; }
         public Int32 Port { get; set; }
         public String Type { get; set; }
 

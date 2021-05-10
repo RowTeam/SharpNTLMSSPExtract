@@ -38,20 +38,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Domain\ArgumentParser.cs" />
+    <Compile Include="Domain\ArgumentParserResult.cs" />
+    <Compile Include="Domain\Info.cs" />
     <Compile Include="FunModule\EXCHANGE.cs" />
     <Compile Include="FunModule\MSSQL.cs" />
     <Compile Include="FunModule\RDP.cs" />
     <Compile Include="FunModule\WINRM.cs" />
-    <Compile Include="ParsingResponse.cs" />
-    <Compile Include="FormatUtils.cs" />
+    <Compile Include="lib\ParsingResponse.cs" />
+    <Compile Include="lib\FormatUtils.cs" />
     <Compile Include="FunModule\ModuleScan.cs" />
     <Compile Include="FunModule\SMB.cs" />
     <Compile Include="FunModule\WMI.cs" />
-    <Compile Include="TriageNTLMSSPKey.cs" />
+    <Compile Include="lib\TriageNTLMSSPKey.cs" />
     <Compile Include="FunModule\NTLMSSPBuffer.cs" />
+    <Compile Include="lib\Wantprefixlen.cs" />
+    <Compile Include="Networking\WebRequestAndResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SocketStream.cs" />
+    <Compile Include="Networking\SocketStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
