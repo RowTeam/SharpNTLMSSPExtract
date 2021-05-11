@@ -9,26 +9,29 @@ namespace SharpDetectionNTLMSSP
     class Program
     {
         private static int count = 0;
+		protected static string Format(string args_0, string args_1, string args_2) => String.Format("{0} {1,-28}: {2}\r\n", args_0, args_1, args_2);
+        protected static string Format( string args_1, string args_2) => String.Format("  [>] {0,-18}: {1}\r\n", args_1, args_2);
+		
         static void ParsingTriageNTLMSSPKey(TriageNTLMSSPKey _TriageNTLMSSPKey)
         {
             var result = String.Empty;
-
-            result += String.Format("[*] Detecting Remote Computer of {0}\r\n", _TriageNTLMSSPKey.Target);
+            result += Format("[*]", "Detecting Remote Computer of ", _TriageNTLMSSPKey.Target);
 
             if (String.IsNullOrEmpty(_TriageNTLMSSPKey.NativeOs))
             {
-                if(_TriageNTLMSSPKey.NDR64Syntax != 0)
-                    result += String.Format("  [>] Native OS            : Windows Version {0}.{1} Build {2} x{3}\r\n",  _TriageNTLMSSPKey.OsMajor, _TriageNTLMSSPKey.OsMinor,  _TriageNTLMSSPKey.OsBuildNumber, _TriageNTLMSSPKey.NDR64Syntax.ToString());
+                if (_TriageNTLMSSPKey.NDR64Syntax != 0)                    
+                    result += Format("Native OS", $"Windows Version {_TriageNTLMSSPKey.OsMajor}.{_TriageNTLMSSPKey.OsMinor} Build {_TriageNTLMSSPKey.OsBuildNumber} x{_TriageNTLMSSPKey.NDR64Syntax.ToString()}");
                 else
-                    result += String.Format("  [>] Native OS            : Windows Version {0}.{1} Build {2}\r\n", _TriageNTLMSSPKey.OsMajor, _TriageNTLMSSPKey.OsMinor, _TriageNTLMSSPKey.OsBuildNumber);
+                    result += Format("Native OS", $"Windows Version {_TriageNTLMSSPKey.OsMajor}.{_TriageNTLMSSPKey.OsMinor} Build {_TriageNTLMSSPKey.OsBuildNumber}");                    
             }
             else
             {
-                result += String.Format("  [>] Native OS            : {0}\r\n", _TriageNTLMSSPKey.NativeOs);
+                result += Format("Native OS", _TriageNTLMSSPKey.NativeOs);
             }
-            result += String.Format("  [>] NetBIOS computer name: {0}\r\n", _TriageNTLMSSPKey.NbtComputerName);
-            result += String.Format("  [>] DNS computer name    : {0}\r\n", _TriageNTLMSSPKey.DnsComputerName);
-            result += String.Format("  [>] Time stamp           : {0}\r\n", _TriageNTLMSSPKey.TimeStamp.ToString("yyyy-MM-dd HH-mm-ss ddd"));
+            result += Format("DNS domain name", _TriageNTLMSSPKey.DnsDomainName);
+            result += Format("DNS computer name", _TriageNTLMSSPKey.DnsComputerName);
+            result += Format("Time stamp", _TriageNTLMSSPKey.TimeStamp.ToString("yyyy-MM-dd HH-mm-ss ddd"));
+
             count += 1;
             Console.WriteLine(result);
         }
