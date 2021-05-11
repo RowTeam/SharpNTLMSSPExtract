@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Sockets;
-using System.Text;
+using System.Threading;
 
 namespace SharpDetectionNTLMSSP
 {
@@ -10,6 +8,7 @@ namespace SharpDetectionNTLMSSP
     {
         public Boolean OK = false;
         public Socket socket = null;
+
         public SocketStream(String ip, int port)
         {
             try
@@ -17,11 +16,11 @@ namespace SharpDetectionNTLMSSP
                 this.socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect(ip, port);
                 OK = true;
-            } 
-            catch 
+            }
+            catch
             {
                 OK = false;
-                return; 
+                return;
             }
         }
 
@@ -31,9 +30,9 @@ namespace SharpDetectionNTLMSSP
             {
                 socket.Send(buffer);
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"[!] Socket Error, during sending: {ex.Message}");
+                return;
             }
         }
 
@@ -44,10 +43,11 @@ namespace SharpDetectionNTLMSSP
             {
                 socket.Receive(response);
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"[!] Socket Error, during receive: {ex.Message}");
+                return new byte[] { };
             }
+
             return response;
         }
     }

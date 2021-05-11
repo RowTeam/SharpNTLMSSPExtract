@@ -7,12 +7,12 @@ namespace SharpDetectionNTLMSSP.FunModule
     {
         public override TriageNTLMSSPKey StartScan(SocketStream socketMessage, TriageNTLMSSPKey _TriageNTLMSSPKey)
         {
-            var response = new byte[1024];
             socketMessage.SendMessage(NTLMSSPBuffer.smb_buffer_v1);
-            response = socketMessage.ReceiveMessage();
+            var response = socketMessage.ReceiveMessage();
             socketMessage.SendMessage(NTLMSSPBuffer.smb_buffer_v2);
             response = socketMessage.ReceiveMessage();
-            
+            if (response.Length == 0) return null;
+
             _TriageNTLMSSPKey = ParsingResponse.ParsingSocketStremResponse(response, _TriageNTLMSSPKey, ref response);
 
             var veraw = Encoding.Default.GetString(response).Split(new String[] { "\0\0\0" }, StringSplitOptions.RemoveEmptyEntries);

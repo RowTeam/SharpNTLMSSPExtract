@@ -8,6 +8,7 @@ namespace SharpDetectionNTLMSSP
 {
     class Program
     {
+        private static int count = 0;
         static void ParsingTriageNTLMSSPKey(TriageNTLMSSPKey _TriageNTLMSSPKey)
         {
             var result = String.Empty;
@@ -28,7 +29,7 @@ namespace SharpDetectionNTLMSSP
             result += String.Format("  [>] NetBIOS computer name: {0}\r\n", _TriageNTLMSSPKey.NbtComputerName);
             result += String.Format("  [>] DNS computer name    : {0}\r\n", _TriageNTLMSSPKey.DnsComputerName);
             result += String.Format("  [>] Time stamp           : {0}\r\n", _TriageNTLMSSPKey.TimeStamp.ToString("yyyy-MM-dd HH-mm-ss ddd"));
-
+            count += 1;
             Console.WriteLine(result);
         }
 
@@ -36,6 +37,7 @@ namespace SharpDetectionNTLMSSP
         {
             var socketMessage = new SocketStream(target, port);
             if (!socketMessage.OK) return;
+
             var _TriageNTLMSSPKey = new TriageNTLMSSPKey();
             _TriageNTLMSSPKey.Target = target;
             _TriageNTLMSSPKey.Port = port;
@@ -48,6 +50,7 @@ namespace SharpDetectionNTLMSSP
                 _ModuleScan = (ModuleScan)Activator.CreateInstance(type);
             }
             _TriageNTLMSSPKey = _ModuleScan.StartScan(socketMessage, _TriageNTLMSSPKey);
+            if (_TriageNTLMSSPKey == null) return;
             ParsingTriageNTLMSSPKey(_TriageNTLMSSPKey);
         }
 
@@ -120,7 +123,8 @@ namespace SharpDetectionNTLMSSP
 
             stopwatch.Stop();
             TimeSpan timespan = stopwatch.Elapsed;
-            Console.WriteLine("[*] Time taken: {0}s", timespan.TotalSeconds);
+            
+            Console.WriteLine("[*] Count: {0}, Time taken: {1}s", count, timespan.TotalSeconds);
         }
     }
 }
