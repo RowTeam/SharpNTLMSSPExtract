@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F8A96165-9E12-4303-99A8-D14B6A040FB6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>SharpNTLMSSPExtract</RootNamespace>
+    <AssemblyName>SharpNTLMSSPExtract</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\Exchange.cs" />
+    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\RDP.cs" />
+    <Compile Include="Commands\WinRM.cs" />
+    <Compile Include="Commands\MSSQL.cs" />
+    <Compile Include="Commands\WMI.cs" />
+    <Compile Include="Commands\SMB.cs" />
+    <Compile Include="Domain\ArgumentParser.cs" />
+    <Compile Include="Domain\ArgumentParserContent.cs" />
+    <Compile Include="Domain\ArgumentParserResult.cs" />
+    <Compile Include="Domain\CommandCollection.cs" />
+    <Compile Include="Helpers\Info.cs" />
+    <Compile Include="Helpers\Options.cs" />
+    <Compile Include="Helpers\WriteLine.cs" />
+    <Compile Include="Helpers\Writer.cs" />
+    <Compile Include="Lib\Networking.cs" />
+    <Compile Include="Lib\NTLMSSPBuffer.cs" />
+    <Compile Include="Lib\RdpFull\Cryptography\ABCDStruct.cs" />
+    <Compile Include="Lib\RdpFull\Cryptography\HMACT64.cs" />
+    <Compile Include="Lib\RdpFull\Cryptography\MD4.cs" />
+    <Compile Include="Lib\RdpFull\Cryptography\MD4Managed.cs" />
+    <Compile Include="Lib\RdpFull\Cryptography\MD5.cs" />
+    <Compile Include="Lib\RdpFull\Cryptography\RC4.cs" />
+    <Compile Include="Lib\RdpFull\Encoding\ASCIIEncoding.cs" />
+    <Compile Include="Lib\RdpFull\Exceptions\RDFatalException.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Negotiation\ASN1.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Negotiation\CredSSP.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Negotiation\MCS.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Negotiation\NTLM.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Negotiation\RdpPacket.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Network\Network.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Network\NetworkSocket.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Network\PacketLogger.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Processing\ISO.cs" />
+    <Compile Include="Lib\RdpFull\Protocol\Processing\IsoLayer.cs" />
+    <Compile Include="Lib\RdpFull\Settings\Options.cs" />
+    <Compile Include="Lib\Wantprefixlen.cs" />
+    <Compile Include="Lib\NTLMSSPExtract.cs" />
+    <Compile Include="Lib\SSPKey.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

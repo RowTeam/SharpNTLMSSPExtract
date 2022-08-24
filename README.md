@@ -1,4 +1,6 @@
-# SharpDetectionNTLMSSP
+# SharpNTLMSSPExtract
+
+由 SharpDetectionNTLMSSP 改名为 SharpNTLMSSPExtract
 
 https://mp.weixin.qq.com/s/Yr71bBrLDFjbDHkBqZ_HPg
 
@@ -27,27 +29,22 @@ https://mp.weixin.qq.com/s/Yr71bBrLDFjbDHkBqZ_HPg
 ### 0x02 使用方法
 
 ```
-SharpDetectionNTLMSSP.exe -module=smb -target=192.168.65.133 -port=445 -threads=15
+   _____ _                      _   _ _______ _      __  __  _____ _____ _____  ______      _                  _
+  / ____| |                    | \ | |__   __| |    |  \/  |/ ____/ ____|  __ \|  ____|    | |                | |
+ | (___ | |__   __ _ _ __ _ __ |  \| |  | |  | |    | \  / | (___| (___ | |__) | |__  __  _| |_ _ __ __ _  ___| |_
+  \___ \| '_ \ / _` | '__| '_ \| . ` |  | |  | |    | |\/| |\___ \\___ \|  ___/|  __| \ \/ / __| '__/ _` |/ __| __|
+  ____) | | | | (_| | |  | |_) | |\  |  | |  | |____| |  | |____) |___) | |    | |____ >  <| |_| | | (_| | (__| |_
+ |_____/|_| |_|\__,_|_|  | .__/|_| \_|  |_|  |______|_|  |_|_____/_____/|_|    |______/_/\_\\__|_|  \__,_|\___|\__|
+                         | |
+                         |_|   by:RowTeam          Current Time: 2022-08-24 18:35:35
 
-Required Flags:
-    -target: The IP address of the target. the following formats are supported
-        192.168.65.133
-        192.168.65.133,192.168.65.123
-        192.168.65.0/24
-        192.168.65.0/16
-        192.168.65.0/8
-        192.168.65.55-192.168.70.233
-    	target.txt
-    -module: The service module of the target. the following modules are supported
-        exchange
-        mssql
-        smb
-        winrm
-        wmi
-    -port: The corresponding port of the target's service module
 
-Optional Flags:
-	-threads: Threads to use to concurently enumerate multiple remote hosts (Default: 15)
+
+### Command Line Usage ###
+
+    SharpNTLMSSPExtract smb/wmi/winrm/mssql/exchange/rdp
+
+SharpNTLMSSPExtract.exe smb /target:10.0.100.233 /port:445 /threads:15
 ```
 
 效果：
