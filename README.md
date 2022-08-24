@@ -49,7 +49,7 @@ SharpNTLMSSPExtract.exe smb /target:10.0.100.233 /port:445 /threads:15
 
 效果：
 
-![](blog_2021-05-10_21-43-10.png)
+![](blog_2022-08-24_18-41-47.png)
 
 ### 0x03 参考
 
